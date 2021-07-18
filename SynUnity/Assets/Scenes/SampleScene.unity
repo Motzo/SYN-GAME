@@ -546,9 +546,9 @@ MonoBehaviour:
   jumpheight: 7
   jetPackForce: 300
   jetPackFuel: 10
-  jetPack: 1
+  jetPack: 0
   smoothAirMovement: 1
-  smoothAirMovementSpeed: 10
+  smoothAirMovementSpeed: 13
   doubleJump: 0
   doubleJumpHeight: 5
   fallRespawn: 1
@@ -682,7 +682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223702004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.29, y: -1.07, z: 0}
+  m_LocalPosition: {x: 5.29, y: -1.92, z: 0}
   m_LocalScale: {x: 3.2885, y: 0.8375148, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
