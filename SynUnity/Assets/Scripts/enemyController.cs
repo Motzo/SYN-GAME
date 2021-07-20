@@ -9,6 +9,8 @@ public class enemyController : MonoBehaviour
     public GameObject Syn;
     public GameObject bulletPrefab;
     public int maxHealth = 3;
+    public AudioSource pew;
+    public AudioSource ded;
 
     float bulletAngle;
     int health;
@@ -27,6 +29,7 @@ public class enemyController : MonoBehaviour
         }
 
         if(health <= 0){
+            ded.Play();
             DestroyImmediate(gameObject);
         }
     }
@@ -36,6 +39,7 @@ public class enemyController : MonoBehaviour
         bulletAngle = Mathf.Atan2((Syn.transform.position.y-transform.position.y),(Syn.transform.position.x-transform.position.x)) * 180 / Mathf.PI;
         Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0,bulletAngle));
         timer = 0;
+        pew.Play();
     }
 
     void OnTriggerEnter2D(Collider2D other){

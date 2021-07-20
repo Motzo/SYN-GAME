@@ -5,6 +5,7 @@ using UnityEngine;
 public class synController : MonoBehaviour
 {
     public float speed = 10;
+    public float runMultiplier = 1.5f;
     public float jumpheight = 7;
     public float jetPackForce = 1;
     public float jetPackFuel = 10.0f;
@@ -18,10 +19,17 @@ public class synController : MonoBehaviour
     public float fallRespawnDepth = -10;
     public GameObject bulletPrefab;
     public KeyCode fireKey;
+    public KeyCode runKey;
     public float timeBetweenShot = 0.5f;
     public int maxHealth = 5;
     public float respawnTimeLimit;
     public GameObject healthText;
+    public Sprite idle;
+    public Sprite inAir;
+    public AudioSource pew;
+    public AudioSource jump;
+    public AudioSource splat;
+    public AudioSource ded;
 
     bool jumpBool;
     int direction;
@@ -32,6 +40,8 @@ public class synController : MonoBehaviour
     Vector2 velocity;
     Rigidbody2D rigbod;
     int health;
+    bool onGround;
+    SpriteRenderer sprRen;
     void Start()
     {
         rigbod = GetComponent<Rigidbody2D>();
@@ -39,7 +49,7 @@ public class synController : MonoBehaviour
         bulletTimer = timeBetweenShot;
         direction = 2;
         health = maxHealth;
-        
+        sprRen = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -67,18 +77,20 @@ public class synController : MonoBehaviour
             }
             
 
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("w") || Input.GetKeyDown("up")){
+            if(Input.GetKeyDown("w") || Input.GetKeyDown("up")){
                 if(rigbod.velocity.y == 0){
                     velocity.y = jumpheight;
+                    jump.Play();
                 } 
                 else if(jumpBool){
                     jumpBool = false;
                     velocity.y = doubleJumpHeight;
+                    jump.Play();
                 }
                 
             }
 
-            if(Input.GetKey(KeyCode.Space) || Input.GetKey("w") || Input.GetKey("up")){
+            if(Input.GetKey("w") || Input.GetKey("up")){
                 if(rigbod.velocity.y != 0 && jetPack && jetPackFuel > 0){
                     rigbod.AddForce(new Vector2(0,jetPackForce*Time.deltaTime));
                     jetPackFuel -= Time.deltaTime;
@@ -93,12 +105,12 @@ public class synController : MonoBehaviour
                 jumpBool = true;
             }
 
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("w") || Input.GetKeyDown("up")){
+            if(Input.GetKeyDown("w") || Input.GetKeyDown("up")){
                 direction = 0;
             }
             if((Input.GetKey("right") || Input.GetKey("d")) && (Input.GetKey("left") || Input.GetKey("a"))){}
             else if(Input.GetKey("right") || Input.GetKey("d")){
-                if(Input.GetKey(KeyCode.Space) || Input.GetKey("w") || Input.GetKey("up")){
+                if(Input.GetKey("w") || Input.GetKey("up")){
                     direction = 1;
                 }
                 else{
@@ -106,7 +118,7 @@ public class synController : MonoBehaviour
                 }
             }
             else if(Input.GetKey("left") || Input.GetKey("a")){
-                if(Input.GetKey(KeyCode.Space) || Input.GetKey("w") || Input.GetKey("up")){
+                if(Input.GetKey("w") || Input.GetKey("up")){
                     direction = -1;
                 }
                 else{
@@ -137,8 +149,15 @@ public class synController : MonoBehaviour
             else if(velocity.x < 0.001f){
                 GetComponent<SpriteRenderer>().flipX = false;
             }
+
+            if(Input.GetKey(runKey)){
+                velocity.x *= runMultiplier;
+            }
         }
         else{
+            if(respawnTimer == 0){
+                ded.Play();
+            }
             respawnTimer += Time.deltaTime;
             if(respawnTimer >= respawnTimeLimit){
                 health = maxHealth;
@@ -149,6 +168,14 @@ public class synController : MonoBehaviour
         }
 
         respawnCheck();
+
+        if(velocity.y == 0){
+            sprRen.sprite = idle;
+        }
+        if(velocity.y != 0){
+            onGround = false;
+            sprRen.sprite = inAir;
+        }
 
         if(health < 0){
             health = 0;
@@ -171,11 +198,19 @@ public class synController : MonoBehaviour
 
     void spawnBullet(float rotation){
         Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0,rotation));
+        pew.Play();
     }
 
     void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "EnemyBullet"){
             health--;
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D other){
+        if(velocity.y == 0 && !onGround){
+            onGround = true;
+            splat.Play();
         }
     }
 
