@@ -63,7 +63,7 @@ public class synController : MonoBehaviour
         if(health > 0){
             if(smoothAirMovement){
                 if(rigbod.velocity.y == 0){
-                    if(Input.GetKey("s") && sliding){ //sliding
+                    if((Input.GetKey("s") || Input.GetKey("down")) && sliding){ //sliding
                         velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime/slideDecel);
                     }
                     else{
