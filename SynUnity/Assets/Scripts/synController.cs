@@ -14,6 +14,9 @@ public class synController : MonoBehaviour
     public float smoothAirMovementSpeed = 1;
     public bool doubleJump;
     public float doubleJumpHeight = 5;
+    public bool sliding;
+    [Tooltip("The amount of time for the sliding to stop in seconds.")]
+    public float slideDecel = 1f;
     public bool fallRespawn;
     public bool lastLocationRespawn;
     public float fallRespawnDepth = -10;
@@ -30,6 +33,7 @@ public class synController : MonoBehaviour
     public AudioSource jump;
     public AudioSource splat;
     public AudioSource ded;
+    public AudioSource hit;
 
     bool jumpBool;
     int direction;
@@ -51,8 +55,7 @@ public class synController : MonoBehaviour
         health = maxHealth;
         sprRen = GetComponent<SpriteRenderer>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         velocity = rigbod.velocity;
@@ -60,7 +63,13 @@ public class synController : MonoBehaviour
         if(health > 0){
             if(smoothAirMovement){
                 if(rigbod.velocity.y == 0){
-                    velocity.x = horiMove * speed;
+                    if(Input.GetKey("s") && sliding){ //sliding
+                        velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime/slideDecel);
+                    }
+                    else{
+                        velocity.x = horiMove * speed;
+                    }
+                    
                 }
                 else{
                     velocity.x += horiMove * smoothAirMovementSpeed * Time.deltaTime;
@@ -150,7 +159,7 @@ public class synController : MonoBehaviour
                 GetComponent<SpriteRenderer>().flipX = false;
             }
 
-            if(Input.GetKey(runKey)){
+            if(Input.GetKey(runKey) && !Input.GetKey("s")){
                 velocity.x *= runMultiplier;
             }
         }
@@ -204,6 +213,7 @@ public class synController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "EnemyBullet"){
             health--;
+            hit.Play();
         }
     }
 

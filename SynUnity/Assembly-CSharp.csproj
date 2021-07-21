@@ -39,8 +39,8 @@
      <Compile Include="Assets\Scripts\enemyController.cs" />
      <Compile Include="Assets\Scripts\cameraController.cs" />
      <Compile Include="Assets\Scripts\synController.cs" />
-     <Compile Include="Assets\Scripts\bulletController.cs" />
      <Compile Include="Assets\Scripts\musicController.cs" />
+     <Compile Include="Assets\Scripts\bulletController.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Unity versions/2021.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

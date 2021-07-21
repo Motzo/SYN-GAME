@@ -7,8 +7,9 @@ TagManager:
   - SynBullet
   - Syn
   - Enemies
-  - Obsticals
   - EnemyBullet
+  - obstacle
+  - Obsticals
   layers:
   - Default
   - TransparentFX

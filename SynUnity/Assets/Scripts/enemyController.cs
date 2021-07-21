@@ -11,6 +11,7 @@ public class enemyController : MonoBehaviour
     public int maxHealth = 3;
     public AudioSource pew;
     public AudioSource ded;
+    public AudioSource hit;
 
     float bulletAngle;
     int health;
@@ -30,7 +31,7 @@ public class enemyController : MonoBehaviour
 
         if(health <= 0){
             ded.Play();
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
         }
     }
     
@@ -45,6 +46,7 @@ public class enemyController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "SynBullet"){
             health--;
+            hit.Play();
         }
     }
 }
