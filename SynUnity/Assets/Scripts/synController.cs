@@ -27,8 +27,7 @@ public class synController : MonoBehaviour
     public int maxHealth = 5;
     public float respawnTimeLimit;
     public GameObject healthText;
-    public Sprite idle;
-    public Sprite inAir;
+    public Animator animatorController;
     public AudioSource pew;
     public AudioSource jump;
     public AudioSource splat;
@@ -155,7 +154,7 @@ public class synController : MonoBehaviour
             if(velocity.x > 0.001f){
                 GetComponent<SpriteRenderer>().flipX = true;
             }
-            else if(velocity.x < 0.001f){
+            else if(velocity.x < -0.001f){
                 GetComponent<SpriteRenderer>().flipX = false;
             }
 
@@ -179,12 +178,20 @@ public class synController : MonoBehaviour
         respawnCheck();
 
         if(velocity.y == 0){
-            sprRen.sprite = idle;
+            //sprRen.sprite = idle;
         }
         if(velocity.y != 0){
             onGround = false;
-            sprRen.sprite = inAir;
+            //sprRen.sprite = inAir;
         }
+
+        if(velocity.x > 0 || velocity.x < 0){
+            animatorController.SetBool("Walking", true);
+        }
+        else{
+            animatorController.SetBool("Walking", false);
+        }
+
 
         if(health < 0){
             health = 0;

@@ -1179,6 +1179,7 @@ GameObject:
   - component: {fileID: 890897721}
   - component: {fileID: 890897723}
   - component: {fileID: 890897722}
+  - component: {fileID: 890897724}
   m_Layer: 7
   m_Name: Syn
   m_TagString: Syn
@@ -1247,7 +1248,7 @@ Transform:
   m_GameObject: {fileID: 890897718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7016396, y: 0.7016396, z: 0.7016396}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1286,8 +1287,7 @@ MonoBehaviour:
   maxHealth: 5
   respawnTimeLimit: 3
   healthText: {fileID: 2062553569}
-  idle: {fileID: 21300000, guid: 60bc9d16aef02dc48a791847eac787eb, type: 3}
-  inAir: {fileID: 21300000, guid: 60bc9d16aef02dc48a791847eac787eb, type: 3}
+  animatorController: {fileID: 890897724}
   pew: {fileID: 2002796060}
   jump: {fileID: 2002796059}
   splat: {fileID: 2002796058}
@@ -1331,15 +1331,34 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.95, y: 1.29}
+    oldSize: {x: 1.36, y: 1.85}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.962638, y: 1.2148311}
+  m_Size: {x: 1.38, y: 1.79}
   m_EdgeRadius: 0
+--- !u!95 &890897724
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890897718}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f252a4e476bded40a8251aeff833a98, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1035707053
 GameObject:
   m_ObjectHideFlags: 0
