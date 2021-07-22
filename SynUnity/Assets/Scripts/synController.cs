@@ -185,12 +185,14 @@ public class synController : MonoBehaviour
             //sprRen.sprite = inAir;
         }
 
+        animatorController.SetFloat("yVelocity", velocity.y);
         if(velocity.x > 0 || velocity.x < 0){
             animatorController.SetBool("Walking", true);
         }
         else{
             animatorController.SetBool("Walking", false);
         }
+        
 
 
         if(health < 0){
