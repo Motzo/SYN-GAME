@@ -69,8 +69,6 @@ public class synController : MonoBehaviour
             if(rigbod.velocity.y == 0 && doubleJump){
                 jumpBool = true;
             }
-
-            CheckFireDirection();
             
             CheckBulletFire();
         }
@@ -140,7 +138,7 @@ public class synController : MonoBehaviour
         }
     }
     void JumpControl(){
-        if(Input.GetKeyDown("w") || Input.GetKeyDown("up")){
+        if(Input.GetKeyDown("w")/* || Input.GetKeyDown("up")*/){
             if(rigbod.velocity.y == 0){
                 velocity.y = jumpheight;
                 jump.Play();
@@ -156,7 +154,7 @@ public class synController : MonoBehaviour
         }
     }
     void JetPackControl(){
-        if(Input.GetKey("w") || Input.GetKey("up")){
+        if(Input.GetKey("w")/*  || Input.GetKey("up")*/){
             if(rigbod.velocity.y != 0 && jetPack && jetPackFuel > 0){
                 rigbod.AddForce(new Vector2(0,jetPackForce*Time.deltaTime));
                 jetPackFuel -= Time.deltaTime;
@@ -174,27 +172,83 @@ public class synController : MonoBehaviour
         healthText.GetComponent<UnityEngine.UI.Text>().text = "Health: " + health;
     }
     void CheckFireDirection(){
-
+        // if(/*Input.GetKeyDown("w") || */Input.GetKeyDown("up")){
+        //     direction = 0;
+        // }
+        // if((Input.GetKey("right")/* || Input.GetKey("d")*/) && (Input.GetKey("left")/* || Input.GetKey("a")*/)){}
+        // else if(Input.GetKey("right")/* || Input.GetKey("d")*/){
+        //     if(/*Input.GetKey("w") || */Input.GetKey("up")){
+        //         direction = 1;
+        //     }
+        //     else{
+        //         direction = 2;
+        //     }
+        // }
+        // else if(Input.GetKey("left")/* || Input.GetKey("a")*/){
+        //     if(/*Input.GetKey("w") || */Input.GetKey("up")){
+        //         direction = -1;
+        //     }
+        //     else{
+        //         direction = -2;
+        //     }
+        // }
+        if(Input.GetKeyDown("up")){
+            if(Input.GetKey("right") && Input.GetKey("left")){
+                direction = 0;
+            }
+            else if(Input.GetKey("right")){
+                direction = 1;
+            }
+            else if(Input.GetKey("left")){
+                direction = -1;
+            }
+            else{
+                direction = 0;
+            }
+            spawnBullet(direction);
+        }
+        else if(Input.GetKeyDown("right")){
+            if(Input.GetKey("up")){
+                direction = 1;
+            }
+            else{
+                direction = 2;
+            }
+            spawnBullet(direction);
+        }
+        else if(Input.GetKeyDown("left")){
+            if(Input.GetKey("up")){
+                direction = -1;
+            }
+            else{
+                direction = -2;
+            }
+            spawnBullet(direction);
+        }
     }
     void CheckBulletFire(){
         if(bulletTimer < timeBetweenShot){
             bulletTimer += Time.deltaTime;
         }
-        else if(Input.GetKeyDown(fireKey)){
-            if(direction == 2)
-                spawnBullet(0);
-            else if(direction == 1)
-                spawnBullet(45);
-            else if(direction == 0)
-                spawnBullet(90);
-            else if(direction == -1)
-                spawnBullet(135);
-            else if(direction == -2)
-                spawnBullet(180);
-            bulletTimer = 0;
+        else{
+            CheckFireDirection();
         }
     }
-    void spawnBullet(float rotation){
+    void spawnBullet(int direction){
+        float rotation = 180;
+        //if(Input.GetKeyDown(fireKey)){
+            if(direction == 2)
+                rotation = 0;
+            else if(direction == 1)
+                rotation = 45;
+            else if(direction == 0)
+                rotation = 90;
+            else if(direction == -1)
+                rotation = 135;
+            else if(direction == -2)
+                rotation = 180;
+            bulletTimer = 0;
+        //}
         Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0,rotation));
         pew.Play();
     }

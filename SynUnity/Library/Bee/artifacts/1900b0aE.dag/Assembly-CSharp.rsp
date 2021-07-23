@@ -348,6 +348,9 @@
 "Assets/Scripts/bulletController.cs"
 "Assets/Scripts/cameraController.cs"
 "Assets/Scripts/enemyController.cs"
+"Assets/Scripts/errBody.cs"
+"Assets/Scripts/errBulb.cs"
+"Assets/Scripts/errControl.cs"
 "Assets/Scripts/musicController.cs"
 "Assets/Scripts/synController.cs"
 -langversion:8.0
