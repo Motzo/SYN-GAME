@@ -36,13 +36,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\errControl.cs" />
      <Compile Include="Assets\Scripts\enemyController.cs" />
+     <Compile Include="Assets\Scripts\errBody.cs" />
      <Compile Include="Assets\Scripts\cameraController.cs" />
      <Compile Include="Assets\Scripts\synController.cs" />
      <Compile Include="Assets\Scripts\musicController.cs" />
      <Compile Include="Assets\Scripts\bulletController.cs" />
-     <Compile Include="Assets\Scripts\errBody.cs" />
-     <Compile Include="Assets\Scripts\errControl.cs" />
      <Compile Include="Assets\Scripts\errBulb.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Unity versions/2021.1.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
