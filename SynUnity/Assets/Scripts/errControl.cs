@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class errControl : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject syn;
+    public Animator errAnimator;
+
+    float synDistance;
     void Start()
     {
         
@@ -13,6 +15,10 @@ public class errControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        synDistance = Vector3.Distance(transform.position, syn.transform.position);
         
+        if(synDistance < 8/* && !errAnimator.GetCurrentAnimatorClipInfo(1).IsName("SwipeAttack")*/){
+            errAnimator.SetTrigger("Swipe Attack");
+        }
     }
 }
