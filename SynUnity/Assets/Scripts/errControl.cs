@@ -12,12 +12,16 @@ public class errControl : MonoBehaviour
     {
         synDistance = Vector3.Distance(transform.position, syn.transform.position);
 
-        if(synDistance < attackDistance /*&& !Animation.IsPlaying("TheAnimatonClipName")*/){
-            if(Random.Range(0,2) == 0){
-                errAnimator.SetTrigger("Left Swipe Attack");
-            }
-            else{
-                errAnimator.SetTrigger("Right Swipe Attack");
+        if(synDistance < attackDistance){
+            if(!errAnimator.GetCurrentAnimatorStateInfo(1).IsName("LeftSwipeAttack") && !errAnimator.GetCurrentAnimatorStateInfo(1).IsName("RightSwipeAttack")){
+                if(!errAnimator.GetBool("Left Swipe Attack") && !errAnimator.GetBool("Right Swipe Attack")){
+                    if(Random.Range(0,2) == 1){
+                        errAnimator.SetTrigger("Left Swipe Attack");
+                    }
+                    else{
+                        errAnimator.SetTrigger("Right Swipe Attack");
+                    }
+                }
             }
         }
     }
