@@ -27,6 +27,7 @@ public class synController : MonoBehaviour
     public int maxHealth = 5;
     public float respawnTimeLimit;
     public GameObject healthText;
+    public Animator errAnimator;
     public Animator animatorController;
     public AudioSource pew;
     public AudioSource jump;
@@ -269,6 +270,14 @@ public class synController : MonoBehaviour
         if(other.tag == "EnemyBullet"){
             health--;
             hit.Play();
+        }
+        if(other.tag == "ErrHand"){
+            health--;
+            hit.Play();
+        }
+        if(other.tag == "Health Item"){
+            health++;
+            Destroy(other.gameObject);
         }
     }
 

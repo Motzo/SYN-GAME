@@ -10,6 +10,8 @@ TagManager:
   - EnemyBullet
   - obstacle
   - Obsticals
+  - Health Item
+  - ErrHand
   layers:
   - Default
   - TransparentFX

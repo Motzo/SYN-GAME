@@ -15,14 +15,24 @@ public class enemyController : MonoBehaviour
 
     float bulletAngle;
     int health;
+    SpriteRenderer sr;
 
     void Start()
     {
         health = maxHealth;
+        sr = GetComponent<SpriteRenderer>();
+        bulletAngle = Mathf.Atan2((Syn.transform.position.y-transform.position.y),(Syn.transform.position.x-transform.position.x)) * 180 / Mathf.PI;
     }
 
     void Update()
     {
+        if(bulletAngle < 90 || bulletAngle > -90){
+            sr.flipX = true;
+        }
+        if(bulletAngle > 90 || bulletAngle < -90){
+            sr.flipX = false;
+        }
+
         if(timer < timeBetweenShot)
             timer += Time.deltaTime;
         else if(timer >= timeBetweenShot){
@@ -33,6 +43,8 @@ public class enemyController : MonoBehaviour
             ded.Play();
             Destroy(gameObject);
         }
+
+        
     }
     
     void shootBullet()
