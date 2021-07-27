@@ -6,27 +6,53 @@ public class errControl : MonoBehaviour
     public GameObject armsPosition;
     public float attackDistance = 4;
     public GameObject head;
+    public LineRenderer breath;
+    public GameObject breathBase;
+    public Sprite OpenMouth;
+    public Sprite ClosedMouth;
+    public SpriteRenderer headSprite;
     public float breathDelayTime = 20;
+    public float breathLength = 10;
+    public float breathStart = 2;
     public GameObject syn;
     public Animator errAnimator;
 
     float synDistance;
     float breathAngle;
     float breathTimer = 0;
+    float breathLengthTimer = 0;
     bool breathAttack;
+    RaycastHit2D hitLocation;
+    void Start(){
+        breath.SetPosition(0, breathBase.transform.position);
+        breath.SetPosition(1, breathBase.transform.position);
+    }
     void Update()
     {
         if(breathTimer >= breathDelayTime && !breathAttack){
             breathAttack = true;
             breathTimer = 0;
+            breath.SetPosition(1, breathBase.transform.position);
+            breathLengthTimer = 0;
         }
         else if(breathAttack){
             breathAngle = Mathf.Atan2((syn.transform.position.y-head.transform.position.y),(syn.transform.position.x-head.transform.position.x)) * 180 / Mathf.PI;
-            head.transform.rotation = Quaternion.Euler(0,0,breathAngle);
-            breathTimer += Time.deltaTime;
+            head.transform.rotation = Quaternion.Euler(0,0,breathAngle-200);
+            if(breathLengthTimer >= breathStart){
+                hitLocation = Physics2D.Raycast(head.transform.position, syn.transform.position-head.transform.position);
+                breath.SetPosition(1, hitLocation.point);
+                breath.SetPosition(0, breathBase.transform.position);
+                headSprite.sprite = OpenMouth;
+            }
+            else{
+                breath.SetPosition(1, breathBase.transform.position);
+            }
+            breathLengthTimer += Time.deltaTime;
         }
         else{
             breathTimer += Time.deltaTime;
+            breath.SetPosition(1, breathBase.transform.position);
+            headSprite.sprite = ClosedMouth;
         }
         swipeAttack();
         swipeTriggerReset();

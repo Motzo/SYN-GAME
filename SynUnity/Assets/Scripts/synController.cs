@@ -197,33 +197,33 @@ public class synController : MonoBehaviour
             if(Input.GetKey("right") && Input.GetKey("left")){
                 direction = 0;
             }
-            else if(Input.GetKey("right")){
-                direction = 1;
-            }
-            else if(Input.GetKey("left")){
-                direction = -1;
-            }
+            // else if(Input.GetKey("right")){
+            //     direction = 1;
+            // }
+            // else if(Input.GetKey("left")){
+            //     direction = -1;
+            // }
             else{
                 direction = 0;
             }
             spawnBullet(direction);
         }
         else if(Input.GetKeyDown("right")){
-            if(Input.GetKey("up")){
-                direction = 1;
-            }
-            else{
+            // if(Input.GetKey("up")){
+            //     direction = 1;
+            // }
+            // else{
                 direction = 2;
-            }
+            // }
             spawnBullet(direction);
         }
         else if(Input.GetKeyDown("left")){
-            if(Input.GetKey("up")){
-                direction = -1;
-            }
-            else{
+            // if(Input.GetKey("up")){
+            //     direction = -1;
+            // }
+            // else{
                 direction = -2;
-            }
+            // }
             spawnBullet(direction);
         }
     }
@@ -232,26 +232,39 @@ public class synController : MonoBehaviour
             bulletTimer += Time.deltaTime;
         }
         else{
+            animatorController.SetBool("Firing", false);
+            animatorController.SetBool("FiringUp", false);
             CheckFireDirection();
         }
     }
     void spawnBullet(int direction){
         float rotation = 180;
         //if(Input.GetKeyDown(fireKey)){
-            if(direction == 2)
+            if(direction == 2){
                 rotation = 0;
-            else if(direction == 1)
+                animatorController.SetBool("Firing", true);
+            }
+            else if(direction == 1){
                 rotation = 45;
-            else if(direction == 0)
+                animatorController.SetBool("Firing", true);
+            }
+            else if(direction == 0){
                 rotation = 90;
-            else if(direction == -1)
+                animatorController.SetBool("FiringUp", true);
+            }
+            else if(direction == -1){
                 rotation = 135;
-            else if(direction == -2)
+                animatorController.SetBool("Firing", true);
+            }
+            else if(direction == -2){
                 rotation = 180;
+                animatorController.SetBool("Firing", true);
+            }
             bulletTimer = 0;
         //}
         Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0,rotation));
         pew.Play();
+        
     }
     void DeathAction(){
         if(respawnTimer == 0){
