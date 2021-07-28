@@ -12,6 +12,7 @@ TagManager:
   - Obsticals
   - Health Item
   - ErrHand
+  - Bulb
   layers:
   - Default
   - TransparentFX

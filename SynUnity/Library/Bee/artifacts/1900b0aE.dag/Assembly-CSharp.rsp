@@ -345,6 +345,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VSSettingsProvider.ref.dll"
+"Assets/Scripts/bulbCollision.cs"
 "Assets/Scripts/bulletController.cs"
 "Assets/Scripts/cameraController.cs"
 "Assets/Scripts/enemyController.cs"

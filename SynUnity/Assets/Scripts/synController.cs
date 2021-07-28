@@ -243,9 +243,9 @@ public class synController : MonoBehaviour
         else{
             animatorController.SetBool("Firing", false);
             animatorController.SetBool("FiringUp", false);
-            if(velocity.y < 0.0001f && velocity.y > -0.0001f){
+            //if(velocity.y < 0.0001f && velocity.y > -0.0001f){
                 CheckFireDirection();
-            }
+            //}
         }
     }
     void spawnBullet(int direction){

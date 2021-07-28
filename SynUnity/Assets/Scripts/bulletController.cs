@@ -27,6 +27,9 @@ public class bulletController : MonoBehaviour
         if(other.tag == "Enemies" && this.gameObject.tag == "SynBullet"){
             Destroy(gameObject);
         }
+        if(other.tag == "Bulb"){
+            Destroy(gameObject);
+        }
         if(other.tag == "obstacle"){
             Destroy(gameObject);
         }

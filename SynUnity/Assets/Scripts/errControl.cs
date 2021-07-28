@@ -6,6 +6,9 @@ public class errControl : MonoBehaviour
     public GameObject armsPosition;
     public float attackDistance = 4;
     public GameObject head;
+    public GameObject bulb;
+    int health = 20;
+    public int startHealth = 20;
     public LineRenderer breath;
     public GameObject breathBase;
     public Sprite OpenMouth;
@@ -16,6 +19,9 @@ public class errControl : MonoBehaviour
     public float breathStart = 2;
     public GameObject syn;
     public Animator errAnimator;
+    public AudioSource dragonBreath;
+    public AudioSource ded;
+    public AudioSource hit;
 
     float synDistance;
     float breathAngle;
@@ -23,19 +29,23 @@ public class errControl : MonoBehaviour
     float breathLengthTimer = 0;
     bool breathAttack;
     RaycastHit2D hitLocation;
+    private Rigidbody2D rb2d;
     void Start(){
         breath.SetPosition(0, breathBase.transform.position);
         breath.SetPosition(1, breathBase.transform.position);
+        health = startHealth;
+        rb2d = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        if(breathTimer >= breathDelayTime && !breathAttack){
+        if(breathTimer >= breathDelayTime && !breathAttack && rb2d.bodyType != RigidbodyType2D.Dynamic){
             breathAttack = true;
             breathTimer = 0;
             breath.SetPosition(1, breathBase.transform.position);
+            breath.SetPosition(0, breathBase.transform.position);
             breathLengthTimer = 0;
         }
-        else if(breathAttack){
+        else if(breathAttack && rb2d.bodyType != RigidbodyType2D.Dynamic){
             breathAngle = Mathf.Atan2((syn.transform.position.y-head.transform.position.y),(syn.transform.position.x-head.transform.position.x)) * 180 / Mathf.PI;
             head.transform.rotation = Quaternion.Euler(0,0,breathAngle-200);
             if(breathLengthTimer >= breathStart){
@@ -43,12 +53,16 @@ public class errControl : MonoBehaviour
                 breath.SetPosition(1, hitLocation.point);
                 breath.SetPosition(0, breathBase.transform.position);
                 headSprite.sprite = OpenMouth;
+                if(!dragonBreath.isPlaying){
+                    dragonBreath.Play();
+                }
                 if(hitLocation.collider == syn.GetComponent<Collider2D>()){
                     synController.health -= Time.deltaTime;
                 }
             }
             else{
                 breath.SetPosition(1, breathBase.transform.position);
+                breath.SetPosition(0, breathBase.transform.position);
             }
             if(breathLengthTimer >= breathLength){
                 breathAttack = false;
@@ -59,7 +73,14 @@ public class errControl : MonoBehaviour
         else{
             breathTimer += Time.deltaTime;
             breath.SetPosition(1, breathBase.transform.position);
+            breath.SetPosition(0, breathBase.transform.position);
             headSprite.sprite = ClosedMouth;
+        }
+
+        if(health <= 0 && rb2d.bodyType != RigidbodyType2D.Dynamic){
+            rb2d.bodyType = RigidbodyType2D.Dynamic;
+            ded.Play();
+            dragonBreath.Stop();
         }
         swipeAttack();
         swipeTriggerReset();
@@ -89,5 +110,10 @@ public class errControl : MonoBehaviour
                 errAnimator.SetBool("Right Swipe Attack", false);
             }
         }
+    }
+    
+    public void RecieveHit(){
+        health--;
+        hit.Play();
     }
 }
