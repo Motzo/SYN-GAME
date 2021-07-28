@@ -43,7 +43,7 @@ public class synController : MonoBehaviour
     float horiMove;
     Vector2 velocity;
     Rigidbody2D rigbod;
-    int health;
+    public static float health;
     bool onGround;
     SpriteRenderer sprRen;
     void Start()
@@ -102,8 +102,17 @@ public class synController : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        animatorController.SetFloat("yVelocity", velocity.y);
-        if(velocity.x > 0 || velocity.x < 0){
+        if(velocity.y < -0.0001f){
+            animatorController.SetInteger("yVelocity", -1);
+        }
+        else if(velocity.y > 0.0001f){
+            animatorController.SetInteger("yVelocity", 1);
+        }
+        else{
+            animatorController.SetInteger("yVelocity", 0);
+        }
+
+        if((velocity.x > 0 || velocity.x < 0)){
             animatorController.SetBool("Walking", true);
         }
         else{
@@ -234,7 +243,9 @@ public class synController : MonoBehaviour
         else{
             animatorController.SetBool("Firing", false);
             animatorController.SetBool("FiringUp", false);
-            CheckFireDirection();
+            if(velocity.y < 0.0001f && velocity.y > -0.0001f){
+                CheckFireDirection();
+            }
         }
     }
     void spawnBullet(int direction){

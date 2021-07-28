@@ -43,9 +43,16 @@ public class errControl : MonoBehaviour
                 breath.SetPosition(1, hitLocation.point);
                 breath.SetPosition(0, breathBase.transform.position);
                 headSprite.sprite = OpenMouth;
+                if(hitLocation.collider == syn.GetComponent<Collider2D>()){
+                    synController.health -= Time.deltaTime;
+                }
             }
             else{
                 breath.SetPosition(1, breathBase.transform.position);
+            }
+            if(breathLengthTimer >= breathLength){
+                breathAttack = false;
+                breathLengthTimer = 0;
             }
             breathLengthTimer += Time.deltaTime;
         }
