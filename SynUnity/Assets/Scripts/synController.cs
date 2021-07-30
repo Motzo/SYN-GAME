@@ -137,7 +137,7 @@ public class synController : MonoBehaviour
     void xMovement(){
         if(smoothAirMovement){
             if(rigbod.velocity.y == 0){
-                if((Input.GetKey("s") || Input.GetKey("down")) && sliding){ //sliding
+                if((Input.GetKey("s")) && sliding){ //sliding
                     velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime/slideDecel);
                     animatorController.SetBool("Sliding", true);
                 }
@@ -333,5 +333,4 @@ public class synController : MonoBehaviour
             splat.Play();
         }
     }
-
 }

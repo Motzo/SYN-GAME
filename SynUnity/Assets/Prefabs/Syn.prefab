@@ -100,13 +100,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  runMultiplier: 1.5
+  runMultiplier: 1
   jumpheight: 7
   jetPackForce: 300
   jetPackFuel: 10
   jetPack: 0
   smoothAirMovement: 1
-  smoothAirMovementSpeed: 13
+  smoothAirMovementSpeed: 15
   doubleJump: 1
   doubleJumpHeight: 5
   sliding: 1
@@ -121,12 +121,16 @@ MonoBehaviour:
   maxHealth: 5
   respawnTimeLimit: 3
   healthText: {fileID: 0}
+  healthBarAnimator: {fileID: 0}
+  errAnimator: {fileID: 0}
   animatorController: {fileID: 8006818587904504503}
   pew: {fileID: 0}
   jump: {fileID: 0}
   splat: {fileID: 0}
   ded: {fileID: 0}
   hit: {fileID: 0}
+  respawn: {fileID: 0}
+  heal: {fileID: 0}
 --- !u!61 &8006818587904504496
 BoxCollider2D:
   m_ObjectHideFlags: 0
