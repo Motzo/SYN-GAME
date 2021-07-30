@@ -17,15 +17,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 602866ff545a3fb40beea73cf243b445
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EndGame 1.unity
     guid: 895dd7ad4153b654d88b4c2e3d56b21b
   - enabled: 1
-    path: Assets/Scenes/GameOver.unity
-    guid: 56a8cac2a3e1c844f97ae977f27085d4
-  - enabled: 0
     path: Assets/Scenes/EndGame.unity
     guid: ac348044348500a4ba84f5eaf8a1d67e
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 56a8cac2a3e1c844f97ae977f27085d4
   - enabled: 0
     path: Assets/Scenes/Lvl 1.unity
     guid: 7282b5587be59d943b0bd76a8bd45f74
