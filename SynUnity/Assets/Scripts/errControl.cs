@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class errControl : MonoBehaviour
 {
     public GameObject armsPosition;
@@ -13,6 +14,7 @@ public class errControl : MonoBehaviour
     public GameObject breathBase;
     public Sprite OpenMouth;
     public Sprite ClosedMouth;
+    public Sprite DeadHead;
     public SpriteRenderer headSprite;
     public float breathDelayTime = 20;
     public float breathLength = 10;
@@ -28,6 +30,7 @@ public class errControl : MonoBehaviour
     float breathTimer = 0;
     float breathLengthTimer = 0;
     bool breathAttack;
+    float deathTimer = 0;
     RaycastHit2D hitLocation;
     private Rigidbody2D rb2d;
     void Start(){
@@ -38,7 +41,21 @@ public class errControl : MonoBehaviour
     }
     void Update()
     {
-        if(breathTimer >= breathDelayTime && !breathAttack && rb2d.bodyType != RigidbodyType2D.Dynamic){
+        if(health <= 0 && rb2d.bodyType != RigidbodyType2D.Dynamic){
+            rb2d.bodyType = RigidbodyType2D.Dynamic;
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0,2));
+            errAnimator.SetBool("Dead", true);
+            headSprite.sprite = DeadHead;
+            ded.Play();
+            dragonBreath.Stop();
+        }
+        else if(health <= 0){
+            deathTimer += Time.deltaTime;
+            if(deathTimer >= 2.5f){
+                SceneManager.LoadScene(4);
+            }
+        }
+        else if(breathTimer >= breathDelayTime && !breathAttack && rb2d.bodyType != RigidbodyType2D.Dynamic){
             breathAttack = true;
             breathTimer = 0;
             breath.SetPosition(1, breathBase.transform.position);
@@ -70,17 +87,11 @@ public class errControl : MonoBehaviour
             }
             breathLengthTimer += Time.deltaTime;
         }
-        else{
+        else if(health > 0){
             breathTimer += Time.deltaTime;
             breath.SetPosition(1, breathBase.transform.position);
             breath.SetPosition(0, breathBase.transform.position);
             headSprite.sprite = ClosedMouth;
-        }
-
-        if(health <= 0 && rb2d.bodyType != RigidbodyType2D.Dynamic){
-            rb2d.bodyType = RigidbodyType2D.Dynamic;
-            ded.Play();
-            dragonBreath.Stop();
         }
         swipeAttack();
         swipeTriggerReset();
@@ -111,7 +122,6 @@ public class errControl : MonoBehaviour
             }
         }
     }
-    
     public void RecieveHit(){
         health--;
         hit.Play();

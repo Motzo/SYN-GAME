@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class synController : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class synController : MonoBehaviour
     public int maxHealth = 5;
     public float respawnTimeLimit;
     public GameObject healthText;
+    public Animator healthBarAnimator;
     public Animator errAnimator;
     public Animator animatorController;
     public AudioSource pew;
@@ -34,6 +36,8 @@ public class synController : MonoBehaviour
     public AudioSource splat;
     public AudioSource ded;
     public AudioSource hit;
+    public AudioSource respawn;
+    public AudioSource heal;
 
     bool jumpBool;
     int direction;
@@ -46,6 +50,7 @@ public class synController : MonoBehaviour
     public static float health;
     bool onGround;
     SpriteRenderer sprRen;
+    int lives = 3;
     void Start()
     {
         rigbod = GetComponent<Rigidbody2D>(); //Getting the rigidbody component
@@ -61,6 +66,8 @@ public class synController : MonoBehaviour
     {
         velocity = rigbod.velocity; //Setting the velocity variable to the rigidbody velocity
         horiMove = Input.GetAxisRaw("Horizontal"); //Horizontal Axis
+
+        healthBarAnimator.SetFloat("Health", health);
 
         if(health > 0){
             xMovement();
@@ -81,6 +88,10 @@ public class synController : MonoBehaviour
         AnimationControl();
         UpdateHealthText();
 
+        if(lives <= 0){
+            SceneManager.LoadScene(5);
+        }
+
         rigbod.velocity = velocity; //Set velocity to 
     }
 
@@ -91,6 +102,10 @@ public class synController : MonoBehaviour
 
         if(fallRespawn && transform.position.y < fallRespawnDepth){
             transform.position = respawnPosition;
+            lives--;
+            health = maxHealth;
+            animatorController.SetBool("Dead", false);
+            heal.Play();
             velocity = new Vector2(0,0);
         }
     }
@@ -124,11 +139,12 @@ public class synController : MonoBehaviour
             if(rigbod.velocity.y == 0){
                 if((Input.GetKey("s") || Input.GetKey("down")) && sliding){ //sliding
                     velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime/slideDecel);
+                    animatorController.SetBool("Sliding", true);
                 }
                 else{
                     velocity.x = horiMove * speed;
+                    animatorController.SetBool("Sliding", false);
                 }
-                
             }
             else{
                 velocity.x += horiMove * smoothAirMovementSpeed * Time.deltaTime;
@@ -142,6 +158,7 @@ public class synController : MonoBehaviour
         }
         else{
             velocity.x = horiMove * speed;
+            animatorController.SetBool("Sliding", false);
         }
         if(Input.GetKey(runKey) && !Input.GetKey("s")){
             velocity.x *= runMultiplier;
@@ -280,12 +297,16 @@ public class synController : MonoBehaviour
     void DeathAction(){
         if(respawnTimer == 0){
             ded.Play();
+            animatorController.SetBool("Dead", true);
         }
         respawnTimer += Time.deltaTime;
         if(respawnTimer >= respawnTimeLimit){
             health = maxHealth;
+            lives--;
             respawnTimer = 0;
+            animatorController.SetBool("Dead", false);
             transform.position = respawnPosition;
+            respawn.Play();
         }
         velocity.x = 0;
     }
@@ -300,7 +321,8 @@ public class synController : MonoBehaviour
             hit.Play();
         }
         if(other.tag == "Health Item"){
-            health++;
+            health = maxHealth;
+            respawn.Play();
             Destroy(other.gameObject);
         }
     }

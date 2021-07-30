@@ -5,6 +5,7 @@ using UnityEngine;
 public class enemyController : MonoBehaviour
 {
     public float timeBetweenShot = 0.5f;
+    public float shotDistance = 20;
     float timer;
     public GameObject Syn;
     public GameObject bulletPrefab;
@@ -35,7 +36,7 @@ public class enemyController : MonoBehaviour
 
         if(timer < timeBetweenShot)
             timer += Time.deltaTime;
-        else if(timer >= timeBetweenShot){
+        else if(timer >= timeBetweenShot && Vector3.Distance(Syn.transform.position, transform.position) < shotDistance){
             shootBullet();
         }
 
